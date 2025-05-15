@@ -1,8 +1,7 @@
-﻿namespace fiap_cloud_games_api.DTOs
+﻿namespace fiap_cloud_games_api.Requests
 {
-    public class JogoDTO
+    public class JogoCreateRequest
     {
-        public Guid Id { get; set; }
         public string Nome { get; set; }
         public string Plataforma { get; set; }
         public string Genero { get; set; }

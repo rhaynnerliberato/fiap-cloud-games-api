@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using fiap_cloud_games.Domain.Entities;
-using fiap_cloud_games_api.DTOs;
+using fiap_cloud_games_api.Requests;
+using fiap_cloud_games_api.Responses;
 
 namespace fiap_cloud_games_api.AutoMapper
 {
@@ -8,9 +9,12 @@ namespace fiap_cloud_games_api.AutoMapper
     {
         public MappingProfile()
         {
-            CreateMap<Jogo, JogoDTO>();
-            CreateMap<JogoCreateDTO, Jogo>();
-            CreateMap<JogoUpdateDTO, Jogo>();
+            CreateMap<Jogo, JogoRequest>();
+            CreateMap<JogoCreateRequest, Jogo>();
+            CreateMap<JogoUpdateRequest, Jogo>();
+
+            CreateMap<UsuarioCreateRequest, Usuario>();
+            CreateMap<Usuario, UsuarioResponse>();
 
 
         }

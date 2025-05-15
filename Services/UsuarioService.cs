@@ -1,48 +1,46 @@
 ﻿using fiap_cloud_games.Domain.Entities;
+using fiap_cloud_games.Domain.Enums;
 using fiap_cloud_games.Domain.Interfaces;
-using fiap_cloud_games.Infrastructure.Repositories;
-using fiap_cloud_games_api.DTOs;
+using fiap_cloud_games_api.Requests;
+using fiap_cloud_games_api.Responses;
+using AutoMapper;
+using System.Threading.Tasks;
+using fiap_cloud_games_api.LoginRequests;
 
 namespace fiap_cloud_games_api.Services
 {
     public class UsuarioService : IUsuarioService
     {
         private readonly IUsuarioRepository _usuarioRepository;
+        private readonly IMapper _mapper;
 
-        public UsuarioService(IUsuarioRepository usuarioRepository)
+        public UsuarioService(IUsuarioRepository usuarioRepository, IMapper mapper)
         {
             _usuarioRepository = usuarioRepository;
+            _mapper = mapper;
         }
 
-        public Usuario Cadastrar(UsuarioCreateDTO dto)
+        public async Task<UsuarioResponse> CadastrarAsync(UsuarioCreateRequest request)
         {
-            var usuario = new Usuario
-            {
-                Nome = dto.Nome,
-                Email = dto.Email,
-                Senha = dto.Senha
-            };
+            // Mapear request para entidade
+            var usuario = _mapper.Map<Usuario>(request);
 
-            // Operação assíncrona, mas controladores atuais são síncronos. Solução rápida:
-            _usuarioRepository.CadastrarAsync(usuario);
+            // Definir perfil com base no domínio do email
+            usuario.Perfil = request.Email.EndsWith("@fiap.com", StringComparison.OrdinalIgnoreCase)
+                ? PerfilUsuario.Admin
+                : PerfilUsuario.Jogador;
 
-            return usuario;
+            await _usuarioRepository.CadastrarAsync(usuario);
+
+            // Mapear entidade para response, omitindo a senha
+            var response = _mapper.Map<UsuarioResponse>(usuario);
+            return response;
         }
 
-        public async Task<Usuario?> Autenticar(LoginDTO dto)
+        public async Task<Usuario?> AutenticarAsync(LoginRequest dto)
         {
             var usuario = await _usuarioRepository.ObterPorEmailAsync(dto.Email);
             return usuario;
-        }
-
-        public void CadastrarUsuario(Usuario usuario)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Usuario ObterUsuarioPorEmail(string email)
-        {
-            throw new NotImplementedException();
         }
     }
 }

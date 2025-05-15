@@ -6,63 +6,79 @@ using fiap_cloud_games_api.AutoMapper;
 using AutoMapper;
 using fiap_cloud_games.Services;
 using fiap_cloud_games.Infrastructure.Context;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Options;
+using System.Text;
+using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// --- Registra o serializer para Guid com representação padrão "Standard" ---
+// Versão 3.4.0 do MongoDB.Driver não possui GuidRepresentationMode nem IsSerializerRegistered
+BsonSerializer.RegisterSerializer(new GuidSerializer(MongoDB.Bson.GuidRepresentation.Standard));
+
 // --- Adicionar serviços ao container ---
-
-// Adicionar Controllers
 builder.Services.AddControllers();
-
-// Configurar Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Configurar Settings
-builder.Services.AddSingleton<MongoDbContext>();
+// --- Configurar MongoDB Settings ---
+builder.Services.Configure<MongoDbSettings>(
+    builder.Configuration.GetSection(nameof(MongoDbSettings)));
+
+// Configurar o MongoDbContext corretamente
+builder.Services.AddSingleton<MongoDbContext>(sp =>
+{
+    var configuration = sp.GetRequiredService<IConfiguration>();
+    return new MongoDbContext(configuration);
+});
+
+// --- Configurar autenticação JWT ---
+var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+});
 
 // --- Injeção de Dependência para Repositórios (Scoped) ---
-
-// Registrar IUsuarioRepository e sua implementação UsuarioRepository
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-
-// Registrar IJogoRepository e sua implementação JogoRepository
 builder.Services.AddScoped<IJogoRepository, JogoRepository>();
 
 // --- Injeção de Dependência para Serviços (Scoped) ---
-
-// Registrar IUsuarioService e sua implementação UsuarioService
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
-
-// Registrar IAuthService e sua implementação AuthService
 builder.Services.AddScoped<IAuthService, AuthService>();
-
-// Registrar IJogoService e sua implementação JogoService
 builder.Services.AddScoped<IJogoService, JogoService>();
 
-// --- Adicionar AutoMapper ---
-
-// Registrar AutoMapper com o perfil de mapeamento
+// --- AutoMapper ---
 builder.Services.AddAutoMapper(typeof(MappingProfile));
-
-// --- Criar e configurar o aplicativo ---
 
 var app = builder.Build();
 
-// Configurar o pipeline de requisição HTTP
-
+// --- Configuração do pipeline HTTP ---
 if (app.Environment.IsDevelopment())
 {
-    // Ativar Swagger se estiver em ambiente de desenvolvimento
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// Habilitar o middleware de autorização
+app.UseAuthentication();
 app.UseAuthorization();
-
-// Mapear Controllers
 app.MapControllers();
-
-// Executar o aplicativo
 app.Run();

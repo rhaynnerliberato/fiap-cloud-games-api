@@ -1,6 +1,6 @@
-﻿namespace fiap_cloud_games_api.DTOs
+﻿namespace fiap_cloud_games_api.Requests
 {
-    public class JogoUpdateDTO
+    public class JogoUpdateRequest
     {
         public string Nome { get; set; }
         public string Plataforma { get; set; }
