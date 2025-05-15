@@ -1,7 +1,6 @@
 ﻿using fiap_cloud_games.Domain.Entities;
 using fiap_cloud_games.Domain.Interfaces;
-using fiap_cloud_games_api.LoginRequests;
-using fiap_cloud_games_api.Requests;
+using fiap_cloud_games_api.Models.Requests;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -20,15 +19,21 @@ namespace fiap_cloud_games_api.Services
             _usuarioRepository = usuarioRepository;
         }
 
-        public string Authenticate(LoginRequest request)
+        public async Task<string> Authenticate(LoginRequest request)
         {
-            var usuario = _usuarioRepository.ObterPorEmailAsync(request.Email).Result;
-            if (usuario != null && usuario.Senha == request.Senha)
+            var usuario = await _usuarioRepository.ObterPorEmailAsync(request.Email);
+
+            if (usuario != null)
             {
-                return GerarToken(usuario);
+                // ⚠️ Recomendado: usar hash de senha (ex: BCrypt)
+                if (usuario.Senha == request.Senha)
+                {
+                    return GerarToken(usuario);
+                }
             }
 
-            return string.Empty;
+            // Retorno explícito para facilitar depuração
+            throw new UnauthorizedAccessException("Email ou senha inválidos.");
         }
 
         public string GerarToken(Usuario usuario)
@@ -36,15 +41,20 @@ namespace fiap_cloud_games_api.Services
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSecret);
             string perfil = usuario.Perfil?.ToString() ?? "Usuario";
+
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.Name, usuario.Email),
+                new Claim(ClaimTypes.Role, perfil)
+            };
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.Name, usuario.Email),
-                    new Claim(ClaimTypes.Role, perfil ?? "Usuario")
-                }),
+                Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddHours(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature
+                )
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);

@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
 using fiap_cloud_games.Domain.Interfaces;
-using fiap_cloud_games_api.Responses;
-using fiap_cloud_games_api.Requests;
+using fiap_cloud_games_api.Models.Requests;
+using fiap_cloud_games_api.Models.Responses;
+using Microsoft.AspNetCore.Authorization;
 
 namespace fiap_cloud_games_api.Controllers
 {
@@ -17,6 +18,7 @@ namespace fiap_cloud_games_api.Controllers
             _usuarioService = usuarioService;
         }
 
+        [AllowAnonymous] // Permite que usuários não autenticados acessem este endpoint
         [HttpPost("cadastrar")]
         public async Task<ActionResult<UsuarioResponse>> Cadastrar([FromBody] UsuarioCreateRequest request)
         {

@@ -3,14 +3,11 @@ using fiap_cloud_games.Infrastructure.Repositories;
 using fiap_cloud_games.Infrastructure.Settings;
 using fiap_cloud_games.Domain.Interfaces;
 using fiap_cloud_games_api.AutoMapper;
-using AutoMapper;
 using fiap_cloud_games.Services;
 using fiap_cloud_games.Infrastructure.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.Extensions.Options;
 using System.Text;
-using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 
@@ -53,7 +50,8 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(key),
         ValidateIssuer = false,
-        ValidateAudience = false
+        ValidateAudience = false,
+        ClockSkew = TimeSpan.Zero // Remove tolerância de tempo para expiração
     };
 });
 

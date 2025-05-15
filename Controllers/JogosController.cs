@@ -2,15 +2,12 @@
 using fiap_cloud_games.Domain.Entities;
 using fiap_cloud_games.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using fiap_cloud_games_api.Services;
-using fiap_cloud_games_api.Requests;
+using fiap_cloud_games_api.Models.Requests;
+using Microsoft.AspNetCore.Authorization;
 
 namespace fiap_cloud_games_api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/jogos")]
     [ApiController]
     public class JogoController : ControllerBase
     {
@@ -23,7 +20,8 @@ namespace fiap_cloud_games_api.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [Authorize]
+        [HttpGet("listar-jogos")]
         public async Task<ActionResult<IEnumerable<JogoRequest>>> Listar()
         {
             var jogos = await _jogoService.ListarAsync();
@@ -31,7 +29,8 @@ namespace fiap_cloud_games_api.Controllers
             return Ok(jogosDTO);
         }
 
-        [HttpGet("{id}")]
+        [Authorize]
+        [HttpGet("buscar-jogo/{id}")]
         public async Task<ActionResult<JogoRequest>> ObterPorId(Guid id)
         {
             var jogo = await _jogoService.ObterPorIdAsync(id);
@@ -43,7 +42,8 @@ namespace fiap_cloud_games_api.Controllers
             return Ok(jogoDTO);
         }
 
-        [HttpPost]
+        [Authorize(Roles = "Administrador")]
+        [HttpPost("cadastrar")]
         public async Task<ActionResult<JogoRequest>> Criar(JogoCreateRequest request)
         {
             var jogo = _mapper.Map<Jogo>(request);
@@ -53,7 +53,8 @@ namespace fiap_cloud_games_api.Controllers
             return CreatedAtAction(nameof(ObterPorId), new { id = jogoDTO.Id }, jogoDTO);
         }
 
-        [HttpPut("{id}")]
+        [Authorize(Roles = "Administrador")]
+        [HttpPut("alterar-jogo/{id}")]
         public async Task<IActionResult> Atualizar(Guid id, JogoUpdateRequest request)
         {
             var jogoExistente = await _jogoService.ObterPorIdAsync(id);
@@ -68,7 +69,8 @@ namespace fiap_cloud_games_api.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrador")]
+        [HttpDelete("deletar-jogo/{id}")]
         public async Task<IActionResult> Deletar(Guid id)
         {
             var jogo = await _jogoService.ObterPorIdAsync(id);

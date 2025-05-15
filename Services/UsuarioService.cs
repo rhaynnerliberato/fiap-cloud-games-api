@@ -1,11 +1,9 @@
 ﻿using fiap_cloud_games.Domain.Entities;
 using fiap_cloud_games.Domain.Enums;
 using fiap_cloud_games.Domain.Interfaces;
-using fiap_cloud_games_api.Requests;
-using fiap_cloud_games_api.Responses;
 using AutoMapper;
-using System.Threading.Tasks;
-using fiap_cloud_games_api.LoginRequests;
+using fiap_cloud_games_api.Models.Requests;
+using fiap_cloud_games_api.Models.Responses;
 
 namespace fiap_cloud_games_api.Services
 {

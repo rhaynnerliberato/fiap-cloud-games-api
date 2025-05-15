@@ -1,5 +1,6 @@
-﻿using fiap_cloud_games_api.LoginRequests;
-using fiap_cloud_games_api.Services;
+﻿using fiap_cloud_games.Domain.Interfaces;
+using fiap_cloud_games_api.Models.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace fiap_cloud_games_api.Controllers
@@ -8,24 +9,30 @@ namespace fiap_cloud_games_api.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly AuthService _authService;
+        private readonly IAuthService _authService;
 
-        public AuthController(AuthService authService)
+        public AuthController(IAuthService authService)
         {
             _authService = authService;
         }
 
+        [AllowAnonymous] // Permite que usuários não autenticados acessem este endpoint
         [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginRequest request)
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            var token = _authService.Authenticate(request);
-
-            if (string.IsNullOrEmpty(token))
+            try
             {
-                return Unauthorized(new { Message = "Credenciais inválidas. Verifique seu email e senha." });
+                var token = await _authService.Authenticate(request);
+                return Ok(new { Token = token });
             }
-
-            return Ok(new { Token = token });
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { Message = ex.Message });
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new { Message = "Erro interno ao processar a autenticação." });
+            }
         }
     }
 }

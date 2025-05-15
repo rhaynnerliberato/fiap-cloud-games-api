@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using fiap_cloud_games.Domain.Entities;
-using fiap_cloud_games_api.Requests;
-using fiap_cloud_games_api.Responses;
+using fiap_cloud_games_api.Models.Requests;
+using fiap_cloud_games_api.Models.Responses;
 
 namespace fiap_cloud_games_api.AutoMapper
 {

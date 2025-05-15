@@ -1,8 +1,5 @@
 ﻿using fiap_cloud_games.Domain.Entities;
 using fiap_cloud_games.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace fiap_cloud_games.Services
 {

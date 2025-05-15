@@ -1,6 +1,6 @@
 ﻿using fiap_cloud_games.Domain.Enums;
 
-namespace fiap_cloud_games_api.Responses
+namespace fiap_cloud_games_api.Models.Responses
 {
     public class UsuarioResponse
     {

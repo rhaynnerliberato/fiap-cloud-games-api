@@ -1,4 +1,4 @@
-﻿namespace fiap_cloud_games_api.Requests
+﻿namespace fiap_cloud_games_api.Models.Requests
 {
     public class UsuarioCreateRequest
     {
