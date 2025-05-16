@@ -3,6 +3,7 @@ using fiap_cloud_games.Domain.Entities;
 using fiap_cloud_games.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using fiap_cloud_games_api.Models.Requests;
+using fiap_cloud_games_api.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 
 namespace fiap_cloud_games_api.Controllers
@@ -20,48 +21,64 @@ namespace fiap_cloud_games_api.Controllers
             _mapper = mapper;
         }
 
-        [Authorize]
-        [HttpGet("listar-jogos")]
-        public async Task<ActionResult<IEnumerable<JogoRequest>>> Listar()
-        {
-            var jogos = await _jogoService.ListarAsync();
-            var jogosDTO = _mapper.Map<IEnumerable<JogoRequest>>(jogos);
-            return Ok(jogosDTO);
-        }
-
-        [Authorize]
-        [HttpGet("buscar-jogo/{id}")]
-        public async Task<ActionResult<JogoRequest>> ObterPorId(Guid id)
-        {
-            var jogo = await _jogoService.ObterPorIdAsync(id);
-            if (jogo == null)
-            {
-                return NotFound();
-            }
-            var jogoDTO = _mapper.Map<JogoRequest>(jogo);
-            return Ok(jogoDTO);
-        }
-
+        /// <summary>
+        /// Cadastra um novo jogo.
+        /// </summary>
+        /// <param name="request">Dados do novo jogo.</param>
+        /// <returns>Jogo cadastrado.</returns>
         [Authorize(Roles = "Administrador")]
         [HttpPost("cadastrar")]
-        public async Task<ActionResult<JogoRequest>> Criar(JogoCreateRequest request)
+        public async Task<ActionResult<JogoResponse>> Cadastrar(JogoCreateRequest request)
         {
             var jogo = _mapper.Map<Jogo>(request);
             var jogoCadastrado = await _jogoService.CadastrarAsync(jogo);
 
-            var jogoDTO = _mapper.Map<JogoRequest>(jogoCadastrado);
+            var jogoDTO = _mapper.Map<JogoResponse>(jogoCadastrado);
             return CreatedAtAction(nameof(ObterPorId), new { id = jogoDTO.Id }, jogoDTO);
         }
 
+        /// <summary>
+        /// Lista todos os jogos disponíveis.
+        /// </summary>
+        /// <returns>Lista de jogos.</returns>
+        [Authorize]
+        [HttpGet("listar")]
+        public async Task<ActionResult<IEnumerable<JogoResponse>>> Listar()
+        {
+            var jogos = await _jogoService.ListarAsync();
+            var jogosDTO = _mapper.Map<IEnumerable<JogoResponse>>(jogos);
+            return Ok(jogosDTO);
+        }
+
+        /// <summary>
+        /// Busca um jogo por ID.
+        /// </summary>
+        /// <param name="id">ID do jogo.</param>
+        /// <returns>Dados do jogo encontrado.</returns>
+        [Authorize]
+        [HttpGet("buscar-jogo/{id}")]
+        public async Task<ActionResult<JogoResponse>> ObterPorId(string id)
+        {
+            var jogo = await _jogoService.ObterPorIdAsync(id);
+            if (jogo == null)
+                return NotFound();
+
+            var jogoDTO = _mapper.Map<JogoResponse>(jogo);
+            return Ok(jogoDTO);
+        }
+
+        /// <summary>
+        /// Atualiza os dados de um jogo.
+        /// </summary>
+        /// <param name="id">ID do jogo a ser atualizado.</param>
+        /// <param name="request">Novos dados do jogo.</param>
         [Authorize(Roles = "Administrador")]
         [HttpPut("alterar-jogo/{id}")]
-        public async Task<IActionResult> Atualizar(Guid id, JogoUpdateRequest request)
+        public async Task<IActionResult> Atualizar(string id, JogoUpdateRequest request)
         {
             var jogoExistente = await _jogoService.ObterPorIdAsync(id);
             if (jogoExistente == null)
-            {
                 return NotFound();
-            }
 
             _mapper.Map(request, jogoExistente);
             await _jogoService.AtualizarAsync(jogoExistente);
@@ -69,15 +86,17 @@ namespace fiap_cloud_games_api.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Remove um jogo do sistema.
+        /// </summary>
+        /// <param name="id">ID do jogo a ser removido.</param>
         [Authorize(Roles = "Administrador")]
         [HttpDelete("deletar-jogo/{id}")]
-        public async Task<IActionResult> Deletar(Guid id)
+        public async Task<IActionResult> Deletar(string id)
         {
             var jogo = await _jogoService.ObterPorIdAsync(id);
             if (jogo == null)
-            {
                 return NotFound();
-            }
 
             await _jogoService.DeletarAsync(jogo);
             return NoContent();

@@ -16,6 +16,11 @@ namespace fiap_cloud_games_api.Controllers
             _authService = authService;
         }
 
+        /// <summary>
+        /// Realiza o login e retorna o token JWT.
+        /// </summary>
+        /// <param name="request">e-mail e senha.</param>
+        /// <returns>Token JWT.</returns>
         [AllowAnonymous] // Permite que usuários não autenticados acessem este endpoint
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)

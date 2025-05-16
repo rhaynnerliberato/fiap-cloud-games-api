@@ -10,13 +10,13 @@ namespace fiap_cloud_games_api.AutoMapper
         public MappingProfile()
         {
             CreateMap<Jogo, JogoRequest>();
+            CreateMap<Jogo, JogoResponse>();
             CreateMap<JogoCreateRequest, Jogo>();
             CreateMap<JogoUpdateRequest, Jogo>();
 
             CreateMap<UsuarioCreateRequest, Usuario>();
-            CreateMap<Usuario, UsuarioResponse>();
-
-
+            CreateMap<Usuario, UsuarioResponse>()
+                .ForMember(dest => dest.Perfil, opt => opt.MapFrom(src => src.Perfil.ToString()));
         }
     }
 }

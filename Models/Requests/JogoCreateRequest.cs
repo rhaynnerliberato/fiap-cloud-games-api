@@ -2,10 +2,10 @@
 {
     public class JogoCreateRequest
     {
-        public string Nome { get; set; }
-        public string Plataforma { get; set; }
-        public string Genero { get; set; }
-        public string Descricao { get; set; }
-        public decimal Preco { get; set; }
+        public required string Nome { get; set; }
+        public required string Plataforma { get; set; }
+        public required string Genero { get; set; }
+        public string? Descricao { get; set; }
+        public required string Valor { get; set; }
     }
 }

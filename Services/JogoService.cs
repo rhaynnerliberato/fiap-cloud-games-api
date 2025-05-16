@@ -19,7 +19,7 @@ namespace fiap_cloud_games.Services
         }
 
 
-        public async Task<Jogo> ObterPorIdAsync(Guid id)
+        public async Task<Jogo> ObterPorIdAsync(string id)
         {
             return await _jogoRepository.ObterPorIdAsync(id);
         }

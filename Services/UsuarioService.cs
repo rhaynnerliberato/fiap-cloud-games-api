@@ -20,17 +20,14 @@ namespace fiap_cloud_games_api.Services
 
         public async Task<UsuarioResponse> CadastrarAsync(UsuarioCreateRequest request)
         {
-            // Mapear request para entidade
             var usuario = _mapper.Map<Usuario>(request);
 
-            // Definir perfil com base no domínio do email
             usuario.Perfil = request.Email.EndsWith("@fiap.com", StringComparison.OrdinalIgnoreCase)
-                ? PerfilUsuario.Admin
+                ? PerfilUsuario.Administrador
                 : PerfilUsuario.Jogador;
 
             await _usuarioRepository.CadastrarAsync(usuario);
 
-            // Mapear entidade para response, omitindo a senha
             var response = _mapper.Map<UsuarioResponse>(usuario);
             return response;
         }
@@ -39,6 +36,43 @@ namespace fiap_cloud_games_api.Services
         {
             var usuario = await _usuarioRepository.ObterPorEmailAsync(dto.Email);
             return usuario;
+        }
+
+        public async Task<IEnumerable<UsuarioResponse>> ObterTodosAsync()
+        {
+            var usuarios = await _usuarioRepository.ObterTodosAsync();
+            return usuarios.Select(u => _mapper.Map<UsuarioResponse>(u));
+        }
+
+        public async Task<UsuarioResponse?> ObterPorIdAsync(string id)
+        {
+            var usuario = await _usuarioRepository.ObterPorIdAsync(id);
+            return usuario != null ? _mapper.Map<UsuarioResponse>(usuario) : null;
+        }
+
+        public async Task<UsuarioResponse?> AtualizarAsync(string id, UsuarioUpdateRequest request)
+        {
+            var usuarioExistente = await _usuarioRepository.ObterPorIdAsync(id);
+            if (usuarioExistente == null) return null;
+
+            // Atualiza os campos permitidos
+            usuarioExistente.Nome = request.Nome;
+            usuarioExistente.Email = request.Email;
+            if (!string.IsNullOrEmpty(request.Senha))
+                usuarioExistente.Senha = request.Senha;
+
+            await _usuarioRepository.AtualizarAsync(usuarioExistente);
+
+            return _mapper.Map<UsuarioResponse>(usuarioExistente);
+        }
+
+        public async Task<bool> DeletarAsync(string id)
+        {
+            var usuario = await _usuarioRepository.ObterPorIdAsync(id);
+            if (usuario == null) return false;
+
+            await _usuarioRepository.DeletarAsync(id);
+            return true;
         }
     }
 }

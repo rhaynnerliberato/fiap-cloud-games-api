@@ -8,5 +8,9 @@ namespace fiap_cloud_games.Domain.Interfaces
     {
         Task<UsuarioResponse> CadastrarAsync(UsuarioCreateRequest usuarioCreate);
         Task<Usuario?> AutenticarAsync(LoginRequest login);
+        Task<IEnumerable<UsuarioResponse>> ObterTodosAsync();
+        Task<UsuarioResponse?> ObterPorIdAsync(string id);
+        Task<UsuarioResponse?> AtualizarAsync(string id, UsuarioUpdateRequest usuarioUpdate);
+        Task<bool> DeletarAsync(string id);
     }
 }
