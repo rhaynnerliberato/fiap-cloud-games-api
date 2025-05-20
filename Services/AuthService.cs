@@ -13,6 +13,8 @@ namespace fiap_cloud_games_api.Services
         private readonly string _jwtSecret;
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly ILogger<AuthService> _logger;
+        private IConfigurationRoot configMock;
+        private IUsuarioRepository @object;
 
         public AuthService(IConfiguration configuration, IUsuarioRepository usuarioRepository, ILogger<AuthService> logger)
         {
