@@ -12,7 +12,7 @@ using System.Text;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using System.Reflection;
-using fiap_cloud_games.Infrastructure.Database;
+using fiap_cloud_games.Infrastructure.Migrations;
 
 
 var builder = WebApplication.CreateBuilder(args);
