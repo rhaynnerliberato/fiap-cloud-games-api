@@ -1,8 +1,4 @@
 ﻿using fiap_cloud_games.Domain.Entities;
-using fiap_cloud_games_api.Models.Responses;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace fiap_cloud_games.Domain.Interfaces
 {
@@ -13,5 +9,7 @@ namespace fiap_cloud_games.Domain.Interfaces
         Task<Jogo> CadastrarAsync(Jogo jogo);
         Task AtualizarAsync(Jogo jogo);
         Task DeletarAsync(Jogo jogo);
+        Task<bool> AplicarPromocaoAsync(string id, decimal percentual);
+
     }
 }

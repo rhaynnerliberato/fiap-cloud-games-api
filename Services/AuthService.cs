@@ -12,32 +12,43 @@ namespace fiap_cloud_games_api.Services
     {
         private readonly string _jwtSecret;
         private readonly IUsuarioRepository _usuarioRepository;
+        private readonly ILogger<AuthService> _logger;
 
-        public AuthService(IConfiguration configuration, IUsuarioRepository usuarioRepository)
+        public AuthService(IConfiguration configuration, IUsuarioRepository usuarioRepository, ILogger<AuthService> logger)
         {
             _jwtSecret = configuration["Jwt:Key"] ?? throw new ArgumentNullException("Jwt:Key não configurado.");
             _usuarioRepository = usuarioRepository;
+            _logger = logger;
         }
 
         public async Task<string> Authenticate(LoginRequest request)
         {
+            _logger.LogInformation("Autenticação iniciada para o e-mail: {Email}", request.Email);
+
             var usuario = await _usuarioRepository.ObterPorEmailAsync(request.Email);
 
             if (usuario != null)
             {
-                // ⚠️ Recomendado: usar hash de senha (ex: BCrypt)
                 if (usuario.Senha == request.Senha)
                 {
+                    _logger.LogInformation("Usuário autenticado com sucesso. ID: {Id}, Perfil: {Perfil}", usuario.Id, usuario.Perfil);
                     return GerarToken(usuario);
                 }
+
+                _logger.LogWarning("Senha inválida fornecida para o e-mail: {Email}", request.Email);
+            }
+            else
+            {
+                _logger.LogWarning("Usuário não encontrado para o e-mail: {Email}", request.Email);
             }
 
-            // Retorno explícito para facilitar depuração
             throw new UnauthorizedAccessException("Email ou senha inválidos.");
         }
 
         public string GerarToken(Usuario usuario)
         {
+            _logger.LogInformation("Gerando token JWT para o usuário. ID: {Id}, Email: {Email}", usuario.Id, usuario.Email);
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSecret);
             string perfil = usuario.Perfil?.ToString() ?? "Usuario";
@@ -58,11 +69,16 @@ namespace fiap_cloud_games_api.Services
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            var tokenString = tokenHandler.WriteToken(token);
+
+            _logger.LogInformation("Token JWT gerado com sucesso para o usuário ID: {Id}", usuario.Id);
+            return tokenString;
         }
 
         public bool ValidarToken(string token)
         {
+            _logger.LogInformation("Iniciando validação do token JWT.");
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSecret);
 
@@ -77,10 +93,12 @@ namespace fiap_cloud_games_api.Services
                     ClockSkew = TimeSpan.Zero
                 }, out SecurityToken validatedToken);
 
+                _logger.LogInformation("Token JWT validado com sucesso.");
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                _logger.LogWarning(ex, "Falha na validação do token JWT.");
                 return false;
             }
         }

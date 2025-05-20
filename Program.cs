@@ -12,6 +12,8 @@ using System.Text;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using System.Reflection;
+using fiap_cloud_games.Infrastructure.Database;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -103,6 +105,13 @@ builder.Services.AddScoped<IJogoService, JogoService>();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 var app = builder.Build();
+
+//migrations no MongoDB (via seed)
+DatabaseInitializer.Seed(app.Services.GetRequiredService<MongoDbContext>());
+
+//middleware para tratamento global de erros (logs)
+app.UseMiddleware<fiap_cloud_games_api.Middlewares.ErrorHandlingMiddleware>();
+
 
 // --- Configuração do pipeline HTTP ---
 if (app.Environment.IsDevelopment())
