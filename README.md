@@ -2,20 +2,35 @@
 
 ## 🌟 Objetivo do Projeto
 
-Este é um sistema de backend RESTful voltado para uma plataforma de gerenciamento de jogos na nuvem, chamada **Fiap Cloud Games**. A API permite operações de CRUD para usuários e jogos, autenticação de usuário e funcionalidades adicionais como promoção de jogos.
-
+Este é um sistema de backend RESTful voltado para uma plataforma de gerenciamento de jogos na nuvem, chamada **Fiap Cloud Games**.
+A API permite operações de CRUD para usuários e jogos, autenticação de usuário e funcionalidades adicionais como promoção de jogos.
 Foi desenvolvida em .NET 8 com MongoDB, utilizando boas práticas como injeção de dependência, TDD e arquitetura DDD (Controller, Service, Repository, Domain).
 
 ---
 
 ## 🚀 Tecnologias Utilizadas
 
-* .NET 8
-* MongoDB
-* AutoMapper
-* xUnit
-* Moq
-* Swagger (Swashbuckle)
+✅ .NET 8 
+
+✅ MongoDB (banco NoSQL usado com MongoDB.Driver)
+
+✅ AutoMapper (para conversão entre entidades e DTOs)
+
+✅ xUnit (framework de testes unitários)
+
+✅ Moq (mock de dependências para testes)
+
+✅ Swagger / Swashbuckle (documentação da API)
+
+✅ DDD (Domain-Driven Design) (estrutura do projeto)
+
+✅ TDD (Test-Driven Development) (implementado em módulo específico)
+
+✅ Logger (ILogger) (para logging de ações nos services)
+
+✅ ASP.NET Core (estrutura MVC de controllers e middlewares)
+
+✅ JWT (JSON Web Token) Autenticação de usuários e Autorização por perfil (ex: Administrador, Jogador)
 
 ---
 
@@ -23,20 +38,42 @@ Foi desenvolvida em .NET 8 com MongoDB, utilizando boas práticas como injeção
 
 ```
 fiap-cloud-games-api/
-|-- Controllers/
-|-- Domain/
-|   |-- Entities/
-|   |-- Enums/
-|   |-- Interfaces/
-|-- Models/
-|   |-- Requests/
-|   |-- Responses/
-|-- Repositories/
-|-- Services/
-|-- Tests/
-|   |-- Services/
-|-- Program.cs
-|-- appsettings.json
+Application
+├── Controllers
+│   └── UsuarioController.cs, JogoController.cs
+├── DTOs
+│   ├── Requests
+│   │   └── UsuarioCreateRequest.cs, etc.
+│   └── Responses
+│       └── UsuarioResponse.cs, etc.
+├── Services
+│   ├── UsuarioService.cs
+│   └── Interfaces
+│       └── IUsuarioService.cs
+├── AutoMapper
+│   └── MappingProfile.cs
+├── Middlewares
+│   └── ExceptionMiddleware.cs, etc.
+Domain
+├── Entities
+│   └── Usuario.cs, Jogo.cs, etc.
+├── Enums
+│   └── PerfilUsuario.cs
+├── Interfaces
+│   └── IUsuarioRepository.cs, IJogoRepository.cs
+├── ValueObjects (caso tenha tipos como CPF, Email, etc.)
+Infrastructure
+├── Context
+│   └── MongoDbContext.cs (ou equivalente)
+├── Repositories
+│   ├── UsuarioRepository.cs, JogoRepository.cs
+│   └── (implementações de IUsuarioRepository etc.)
+├── Migrations (se necessário)
+├── Configurations (separar mapeamentos ou settings)
+Tests
+├── Services
+│   ├── UsuarioServiceTests.cs
+│   └── JogoServiceTests.cs
 ```
 
 ---
@@ -54,17 +91,20 @@ cd fiap-cloud-games-api
 
 ```json
 {
-  "MongoDbSettings": {
-    "ConnectionString": "mongodb://localhost:27017",
-    "DatabaseName": "FiapCloudGamesDB"
-  },
   "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft.AspNetCore": "Warning"
+        "LogLevel": {
+            "Default": "Information",
+            "Microsoft.AspNetCore": "Warning"
+        }
+    },
+    "AllowedHosts": "*",
+    "ConnectionStrings": {
+        "MongoDb": "mongodb://localhost:27017"
+    },
+    "MongoDbSettings": {
+        "ConnectionString": "mongodb://localhost:27017",
+        "Database": "fiapcloudgamesdb"
     }
-  },
-  "AllowedHosts": "*"
 }
 ```
 
@@ -96,7 +136,7 @@ https://localhost:7242/swagger/index.html
 
 ### Autenticação
 * POST `/api/Auth/login` - Login/autenticação
-* GET `/api/Auth/erro` - Simular erro - middleware para tratamento global de erros
+* GET `/api/Auth/erro` - Criado apenas para simular erro e testar o Middleware para Tratamento Global de Erros
 
 ### Jogos
 
@@ -153,4 +193,6 @@ dotnet test
 
 ## 👨‍💻 Desenvolvedor
 
-** Rhaynner Liberato **
+** Rhaynner Liberato
+** Estudante do curso Pos-tech em Arquitetura de Sistemas .Net - FIAP
+** Discord Username: rhaynner__
