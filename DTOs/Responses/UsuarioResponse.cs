@@ -1,5 +1,4 @@
-﻿using fiap_cloud_games.Domain.Enums;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 
 namespace fiap_cloud_games_api.Models.Responses
 {

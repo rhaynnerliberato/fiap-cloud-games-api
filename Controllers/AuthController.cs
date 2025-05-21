@@ -3,7 +3,6 @@ using fiap_cloud_games_api.Models.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace fiap_cloud_games_api.Controllers
 {
     [ApiController]
@@ -12,7 +11,6 @@ namespace fiap_cloud_games_api.Controllers
     {
         private readonly IAuthService _authService;
         private readonly ILogger<AuthController> _logger;
-
 
         public AuthController(IAuthService authService, ILogger<AuthController> logger)
         {
@@ -49,15 +47,11 @@ namespace fiap_cloud_games_api.Controllers
             }
         }
 
-
-
         // Endpoint criado para testar o middleware de tratamento global de erros
         [HttpGet("erro")]
         public IActionResult TestarErro()
         {
             throw new Exception("Erro de teste lançado propositalmente.");
         }
-
-
     }
 }

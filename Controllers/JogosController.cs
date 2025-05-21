@@ -146,6 +146,5 @@ namespace fiap_cloud_games_api.Controllers
 
             return Ok($"Desconto de {request.Percentual}% aplicado com sucesso ao jogo {id}.");
         }
-
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Text.Json;
-using Microsoft.Extensions.Logging;
 
 namespace fiap_cloud_games_api.Middlewares
 {

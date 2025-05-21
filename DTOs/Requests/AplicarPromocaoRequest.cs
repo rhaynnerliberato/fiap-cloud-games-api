@@ -7,5 +7,4 @@ namespace fiap_cloud_games_api.Models.Requests
         [Range(1, 100)]
         public decimal Percentual { get; set; }
     }
-
 }

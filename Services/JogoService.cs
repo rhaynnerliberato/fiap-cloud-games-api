@@ -77,6 +77,5 @@ namespace fiap_cloud_games.Services
 
             return true;
         }
-
     }
 }
