@@ -106,10 +106,14 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 var app = builder.Build();
 
-//migrations no MongoDB (via seed)
-DatabaseInitializer.Seed(app.Services.GetRequiredService<MongoDbContext>());
+// --- Migrations no MongoDB (via seed)
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<MongoDbContext>();
+    DatabaseInitializer.Seed(context);
+}
 
-//middleware para tratamento global de erros
+// --- Middleware para tratamento global de erros
 app.UseMiddleware<fiap_cloud_games_api.Middlewares.ErrorHandlingMiddleware>();
 
 

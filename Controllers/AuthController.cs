@@ -51,7 +51,7 @@ namespace fiap_cloud_games_api.Controllers
 
 
 
-        //endpoint criado para testar o middleware de tratamento global de erros
+        // Endpoint criado para testar o middleware de tratamento global de erros
         [HttpGet("erro")]
         public IActionResult TestarErro()
         {
