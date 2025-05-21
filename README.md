@@ -193,6 +193,6 @@ dotnet test
 
 ## 👨‍💻 Desenvolvedor
 
-** Rhaynner Liberato
-** Estudante do curso Pos-tech em Arquitetura de Sistemas .Net - FIAP
-** Discord Username: rhaynner__
+** Rhaynner Liberato **
+** Pos-tech em Arquitetura de Sistemas .Net - FIAP **
+** Discord Username: rhaynner__ **
