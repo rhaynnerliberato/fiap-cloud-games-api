@@ -6,6 +6,6 @@
         public required string Plataforma { get; set; }
         public required string Genero { get; set; }
         public string? Descricao { get; set; }
-        public required string Valor { get; set; }
+        public required decimal Valor { get; set; }
     }
 }

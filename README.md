@@ -2,8 +2,8 @@
 
 ## 🌟 Objetivo do Projeto
 
-Este é um sistema de backend RESTful voltado para uma plataforma de gerenciamento de jogos na nuvem, chamada **Fiap Cloud Games**.
-A API permite operações de CRUD para usuários e jogos, autenticação de usuário e funcionalidades adicionais como promoção de jogos.
+Este é um sistema de backend RESTful voltado para uma plataforma de gerenciamento de jogos na nuvem, chamada **FIAP Cloud Games**.
+A API permite operações de CRUD para usuários e jogos, autenticação e autorização de usuário e funcionalidades adicionais como promoção de jogos.
 Foi desenvolvida em .NET 8 com MongoDB, utilizando boas práticas como injeção de dependência, TDD e arquitetura DDD (Controller, Service, Repository, Domain).
 
 ---
