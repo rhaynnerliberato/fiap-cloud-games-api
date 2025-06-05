@@ -23,10 +23,10 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restaurar dependências
-        run: dotnet restore ./fiap-cloud-games.sln
+        run: dotnet restore fiap-cloud-games.sln
 
       - name: Build da solution
-        run: dotnet build ./fiap-cloud-games.sln --no-restore --configuration Release
+        run: dotnet build fiap-cloud-games.sln --no-restore --configuration Release
 
   test:
     name: Testes Unitários
@@ -43,7 +43,7 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restaurar dependências
-        run: dotnet restore ./fiap-cloud-games.sln
+        run: dotnet restore fiap-cloud-games.sln
 
       - name: Executar testes
-        run: dotnet test ./fiap-cloud-games.sln --no-restore --configuration Release --collect:"XPlat Code Coverage"
+        run: dotnet test fiap-cloud-games.sln --no-restore --configuration Release --collect:"XPlat Code Coverage"
