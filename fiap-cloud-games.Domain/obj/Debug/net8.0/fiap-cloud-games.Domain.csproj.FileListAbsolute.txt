@@ -57,6 +57,7 @@ C:\git\fiap-cloud-games-api\fiap-cloud-games.Domain\obj\Debug\net8.0\fiap-cloud-
 C:\git\fiap-cloud-games-api\fiap-cloud-games.Domain\obj\Debug\net8.0\fiap-cloud-games.Domain.csproj.CoreCompileInputs.cache
 C:\git\fiap-cloud-games-api\fiap-cloud-games.Domain\obj\Debug\net8.0\fiap-cloud-games.Domain.MvcApplicationPartsAssemblyInfo.cs
 C:\git\fiap-cloud-games-api\fiap-cloud-games.Domain\obj\Debug\net8.0\fiap-cloud-games.Domain.MvcApplicationPartsAssemblyInfo.cache
+C:\git\fiap-cloud-games-api\fiap-cloud-games.Domain\obj\Debug\net8.0\fiap-cloud-games.Domain.sourcelink.json
 C:\git\fiap-cloud-games-api\fiap-cloud-games.Domain\obj\Debug\net8.0\scopedcss\bundle\fiap-cloud-games.Domain.styles.css
 C:\git\fiap-cloud-games-api\fiap-cloud-games.Domain\obj\Debug\net8.0\staticwebassets.build.json
 C:\git\fiap-cloud-games-api\fiap-cloud-games.Domain\obj\Debug\net8.0\staticwebassets.development.json

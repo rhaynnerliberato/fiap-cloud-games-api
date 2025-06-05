@@ -306,6 +306,7 @@ C:\git\fiap-cloud-games-api\fiap-cloud-games.Tests\obj\Debug\net8.0\fiap-cloud-g
 C:\git\fiap-cloud-games-api\fiap-cloud-games.Tests\obj\Debug\net8.0\fiap-cloud-games.Tests.AssemblyInfoInputs.cache
 C:\git\fiap-cloud-games-api\fiap-cloud-games.Tests\obj\Debug\net8.0\fiap-cloud-games.Tests.AssemblyInfo.cs
 C:\git\fiap-cloud-games-api\fiap-cloud-games.Tests\obj\Debug\net8.0\fiap-cloud-games.Tests.csproj.CoreCompileInputs.cache
+C:\git\fiap-cloud-games-api\fiap-cloud-games.Tests\obj\Debug\net8.0\fiap-cloud-games.Tests.sourcelink.json
 C:\git\fiap-cloud-games-api\fiap-cloud-games.Tests\obj\Debug\net8.0\fiap-clo.A39B2D4D.Up2Date
 C:\git\fiap-cloud-games-api\fiap-cloud-games.Tests\obj\Debug\net8.0\fiap-cloud-games.Tests.dll
 C:\git\fiap-cloud-games-api\fiap-cloud-games.Tests\obj\Debug\net8.0\refint\fiap-cloud-games.Tests.dll
