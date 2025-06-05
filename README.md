@@ -1,4 +1,4 @@
-# Fiap Cloud Games - Documentação do Projeto
+﻿# Fiap Cloud Games - Documentação do Projeto
 
 ## 🌟 Objetivo do Projeto
 
@@ -161,4 +161,4 @@ dotnet test
 
 ## 👨‍💻 Desenvolvedor
 
-**Rhaynner Liberato**
+*Rhaynner Liberato*
