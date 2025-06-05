@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\fiap-cloud-games.Infrastructure.props" />
+</Project>

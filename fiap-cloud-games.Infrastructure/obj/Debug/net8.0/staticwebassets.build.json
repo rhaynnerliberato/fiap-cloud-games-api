@@ -1,0 +1,24 @@
+{
+  "Version": 1,
+  "Hash": "xJRxt5dL7Nxh1NUY000Um37kUHWAMFL2xhTujSYN3Lc=",
+  "Source": "fiap-cloud-games.Infrastructure",
+  "BasePath": "_content/fiap-cloud-games.Infrastructure",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "C:\\git\\fiap-cloud-games-api\\fiap-cloud-games.Domain\\fiap-cloud-games.Domain.csproj",
+      "Version": 2,
+      "Source": "fiap-cloud-games.Domain",
+      "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework"
+    }
+  ],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

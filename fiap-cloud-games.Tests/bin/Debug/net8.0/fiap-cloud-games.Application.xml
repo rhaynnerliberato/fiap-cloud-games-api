@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>fiap-cloud-games.Application</name>
+    </assembly>
+    <members>
+        <member name="M:fiap_cloud_games_api.Controllers.AuthController.Login(fiap_cloud_games_api.Models.Requests.LoginRequest)">
+            <summary>
+            Realiza o login e retorna o token JWT.
+            </summary>
+            <param name="request">e-mail e senha.</param>
+            <returns>Token JWT.</returns>
+        </member>
+        <member name="M:fiap_cloud_games_api.Controllers.JogoController.Cadastrar(fiap_cloud_games_api.Models.Requests.JogoCreateRequest)">
+            <summary>
+            Cadastra um novo jogo.
+            </summary>
+            <param name="request">Dados do novo jogo.</param>
+            <returns>Jogo cadastrado.</returns>
+        </member>
+        <member name="M:fiap_cloud_games_api.Controllers.JogoController.Listar">
+            <summary>
+            Lista todos os jogos disponíveis.
+            </summary>
+            <returns>Lista de jogos.</returns>
+        </member>
+        <member name="M:fiap_cloud_games_api.Controllers.JogoController.ObterPorId(System.String)">
+            <summary>
+            Busca um jogo por ID.
+            </summary>
+            <param name="id">ID do jogo.</param>
+            <returns>Dados do jogo encontrado.</returns>
+        </member>
+        <member name="M:fiap_cloud_games_api.Controllers.JogoController.Atualizar(System.String,fiap_cloud_games_api.Models.Requests.JogoUpdateRequest)">
+            <summary>
+            Atualiza os dados de um jogo.
+            </summary>
+            <param name="id">ID do jogo a ser atualizado.</param>
+            <param name="request">Novos dados do jogo.</param>
+        </member>
+        <member name="M:fiap_cloud_games_api.Controllers.JogoController.Deletar(System.String)">
+            <summary>
+            Remove um jogo do sistema.
+            </summary>
+            <param name="id">ID do jogo a ser removido.</param>
+        </member>
+        <member name="M:fiap_cloud_games_api.Controllers.JogoController.AplicarPromocao(System.String,fiap_cloud_games_api.Models.Requests.AplicarPromocaoRequest)">
+            <summary>
+            Lança valor promocional em um jogo existente.
+            </summary>
+            <param name="id">ID do jogo a receber valor promocional.</param>
+        </member>
+        <member name="M:fiap_cloud_games_api.Controllers.UsuariosController.Cadastrar(fiap_cloud_games_api.Models.Requests.UsuarioCreateRequest)">
+            <summary>
+            Cadastra um novo usuário.
+            </summary>
+        </member>
+        <member name="M:fiap_cloud_games_api.Controllers.UsuariosController.ListarTodos">
+            <summary>
+            Lista todos os usuários cadastrados.
+            </summary>
+        </member>
+        <member name="M:fiap_cloud_games_api.Controllers.UsuariosController.ObterPorId(System.String)">
+            <summary>
+            Busca um usuário pelo ID.
+            </summary>
+        </member>
+        <member name="M:fiap_cloud_games_api.Controllers.UsuariosController.Atualizar(System.String,fiap_cloud_games_api.Models.Requests.UsuarioUpdateRequest)">
+            <summary>
+            Atualiza os dados de um usuário.
+            </summary>
+        </member>
+        <member name="M:fiap_cloud_games_api.Controllers.UsuariosController.Deletar(System.String)">
+            <summary>
+            Remove um usuário do sistema.
+            </summary>
+        </member>
+    </members>
+</doc>

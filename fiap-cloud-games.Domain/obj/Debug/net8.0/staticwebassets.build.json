@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "bIdEV+HU6dw2mo3N8vUNeMFfhVdzRXkevbl/ho14dik=",
+  "Source": "fiap-cloud-games.Domain",
+  "BasePath": "_content/fiap-cloud-games.Domain",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
