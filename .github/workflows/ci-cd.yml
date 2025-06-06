@@ -54,4 +54,5 @@ jobs:
         run: dotnet restore ./fiap-cloud-games.sln
 
       - name: Executar testes
-        run: dotnet test ./fiap-cloud-games.sln --no-restore --configuration Release --collect:"XPlat Code Coverage"
+        run: dotnet test ./fiap-cloud-games.sln --no-restore --configuration Release --collect:"XPlat Code Coverage" --results-directory ./TestResults
+        continue-on-error: false
