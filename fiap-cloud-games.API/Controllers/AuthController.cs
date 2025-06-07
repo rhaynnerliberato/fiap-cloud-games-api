@@ -8,7 +8,7 @@ using fiap_cloud_games.Application.Services.Interfaces;
 namespace fiap_cloud_games.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;

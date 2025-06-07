@@ -4,20 +4,21 @@
 
 Este é um sistema de backend RESTful voltado para uma plataforma de gerenciamento de jogos na nuvem, chamada **Fiap Cloud Games**. A API permite operações de CRUD para usuários e jogos, autenticação de usuário e funcionalidades adicionais como avaliação de jogos.
 
-Foi desenvolvida em .NET 6 com MongoDB, utilizando boas práticas como injeção de dependência, TDD e arquitetura em camadas (Controller, Service, Repository, Domain).
+Foi desenvolvida em .NET 8 com MongoDB, utilizando boas práticas como injeção de dependência, TDD e arquitetura em camadas (Controller, Service, Repository, Domain).
 
 ---
 
 ## 🚀 Tecnologias Utilizadas
 
-* .NET 6
+* .NET 8
 * MongoDB
+* Migrations
 * AutoMapper
+* Autenticação via JWT
 * xUnit
 * Moq
 * Swagger (Swashbuckle)
 * Github Actions (CI/CD)
-* Docker
 
 ---
 
@@ -101,34 +102,27 @@ https://localhost:5001/swagger
 
 ## 📄 Endpoints Disponíveis
 
+### Login
+
+* POST `/api/auth/login` - Login/autenticação
+* GET `/api/auth/erro` - Testa middleware de tratamento global de erros
+
 ### Usuários
 
-* POST `/api/usuarios` - Cadastrar novo usuário
-* GET `/api/usuarios` - Listar todos os usuários
-* GET `/api/usuarios/{id}` - Buscar por ID
-* PUT `/api/usuarios/{id}` - Atualizar dados
-* DELETE `/api/usuarios/{id}` - Deletar usuário
-* POST `/api/usuarios/login` - Login/autenticação
+* POST `/api/usuarios/cadastrar` - Cadastrar novo usuário
+* GET `/api/usuarios/listar` - Listar todos os usuários
+* GET `/api/usuarios/buscar-usuario/{id}` - Buscar por ID
+* PUT `/api/usuarios/alterar-usuario/{id}` - Atualizar dados
+* DELETE `/api/usuarios/deletar-usuario/{id}` - Deletar usuário
 
 ### Jogos
 
-* POST `/api/jogos` - Cadastrar novo jogo
-* GET `/api/jogos` - Listar todos os jogos
-* GET `/api/jogos/{id}` - Buscar por ID
-* PUT `/api/jogos/{id}` - Atualizar dados
-* DELETE `/api/jogos/{id}` - Deletar jogo
-* POST `/api/jogos/{id}/avaliar` - Avaliar jogo (TDD)
-
----
-
-## 🔮 TDD Aplicado
-
-Implementamos TDD no módulo de **avaliação de jogo**, com o ciclo clássico:
-
-1. Criamos o teste primeiro (`JogoServiceTests.AvaliarAsync_...`).
-2. Implementamos o método `AvaliarAsync` no `JogoService`.
-3. Garantimos que o teste passasse.
-4. Refatoramos a lógica e confirmamos a manutenção dos testes.
+* POST `/api/jogos/cadastrar` - Cadastrar novo jogo
+* GET `/api/jogos/listar` - Listar todos os jogos
+* GET `/api/jogos/buscar-jogo/{id}` - Buscar por ID
+* PUT `/api/jogos/alterar-jogo/{id}` - Atualizar dados
+* DELETE `/api/jogos/deletar-jogo/{id}` - Deletar jogo
+* POST `/api/jogos/{id}/promocao` - Lança valor promocional
 
 ---
 
@@ -154,7 +148,6 @@ Exemplos de testes implementados:
 
   * CadastrarAsync\_DeveRetornarJogo
   * ObterTodosAsync\_DeveRetornarListaJogos
-  * AvaliarAsync\_JogoExiste\_AvaliacaoValida\_DeveSalvarNota
 
 Para rodar os testes:
 
@@ -166,7 +159,6 @@ dotnet test
 
 ## 🚧 Melhorias Futuras
 
-* Autenticação via JWT
 * Filtros de jogos por preço, categoria ou avaliação
 * Upload de imagem para capa do jogo
 * Painel admin
@@ -175,4 +167,4 @@ dotnet test
 
 ## 👨‍💻 Desenvolvedor
 
-*Rhaynner Liberato*
+* Rhaynner Liberato *
