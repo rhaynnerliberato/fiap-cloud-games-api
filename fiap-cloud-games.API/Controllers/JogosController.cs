@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using fiap_cloud_games.Domain.Entities;
-using fiap_cloud_games.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using fiap_cloud_games_api.Models.Requests;
-using fiap_cloud_games_api.Models.Responses;
+using fiap_cloud_games.API.DTOs.Responses;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using fiap_cloud_games.Application.DTOs.Requests;
+using fiap_cloud_games.Application.Services.Interfaces;
 
-namespace fiap_cloud_games_api.Controllers
+namespace fiap_cloud_games.API.Controllers
 {
     [Route("api/jogos")]
     [ApiController]
@@ -31,7 +31,7 @@ namespace fiap_cloud_games_api.Controllers
         /// <returns>Jogo cadastrado.</returns>
         [Authorize(Roles = "Administrador")]
         [HttpPost("cadastrar")]
-        public async Task<ActionResult<JogoResponse>> Cadastrar(JogoCreateRequest request)
+        public async Task<ActionResult<JogoResponse>> Cadastrar([FromBody] JogoCreateRequest request)
         {
             _logger.LogInformation("Iniciando cadastro de novo jogo.");
             var jogo = _mapper.Map<Jogo>(request);
@@ -84,10 +84,11 @@ namespace fiap_cloud_games_api.Controllers
         /// <param name="request">Novos dados do jogo.</param>
         [Authorize(Roles = "Administrador")]
         [HttpPut("alterar-jogo/{id}")]
-        public async Task<IActionResult> Atualizar(string id, JogoUpdateRequest request)
+        public async Task<IActionResult> Atualizar(string id, [FromBody] JogoUpdateRequest request)
         {
             _logger.LogInformation("Atualizando jogo com ID: {JogoId}", id);
             var jogoExistente = await _jogoService.ObterPorIdAsync(id);
+
             if (jogoExistente == null)
             {
                 _logger.LogWarning("Jogo com ID {JogoId} não encontrado para atualização.", id);

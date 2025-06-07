@@ -23,6 +23,7 @@
     <ProjectReference Include="..\fiap-cloud-games.API\fiap-cloud-games.API.csproj" />
     <ProjectReference Include="..\fiap-cloud-games.Domain\fiap-cloud-games.Domain.csproj" />
     <ProjectReference Include="..\fiap-cloud-games.Infrastructure\fiap-cloud-games.Infrastructure.csproj" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.12.0" />
   </ItemGroup>
 
   <ItemGroup>

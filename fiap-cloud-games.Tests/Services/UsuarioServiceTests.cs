@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
+using fiap_cloud_games.API.DTOs.Responses;
+using fiap_cloud_games.Application.DTOs.Requests;
+using fiap_cloud_games.Application.Services;
 using fiap_cloud_games.Domain.Entities;
 using fiap_cloud_games.Domain.Enums;
-using fiap_cloud_games.Domain.Interfaces;
-using fiap_cloud_games_api.Models.Requests;
-using fiap_cloud_games_api.Models.Responses;
-using fiap_cloud_games_api.Services;
+using fiap_cloud_games.Domain.Interfaces.Repositories;
 using Microsoft.Extensions.Logging;
 using Moq;
 
@@ -28,7 +28,7 @@ namespace fiap_cloud_games.Tests.Services
         [Fact]
         public async Task CadastrarAsync_EmailFiap_AssignsAdministradorPerfil()
         {
-            var request = new UsuarioCreateRequest { Email = "admin@fiap.com", Nome = "Admin", Senha = "123" };
+            var request = new Usuario { Email = "admin@fiap.com", Nome = "Admin", Senha = "123" };
             var usuario = new Usuario { Email = request.Email };
             var response = new UsuarioResponse { Email = request.Email };
 
@@ -110,7 +110,7 @@ namespace fiap_cloud_games.Tests.Services
         public async Task AtualizarAsync_UsuarioExiste_AtualizaRetornaResponse()
         {
             var id = "507f1f77bcf86cd799439011";
-            var request = new UsuarioUpdateRequest { Nome = "Novo Nome", Email = "novo@email.com", Senha = "novaSenha" };
+            var request = new Usuario { Nome = "Novo Nome", Email = "novo@email.com", Senha = "novaSenha" };
             var usuario = new Usuario { Id = new MongoDB.Bson.ObjectId(id), Nome = "Antigo", Email = "antigo@email.com", Senha = "123" };
             var response = new UsuarioResponse { Email = request.Email };
 
@@ -127,7 +127,7 @@ namespace fiap_cloud_games.Tests.Services
         public async Task AtualizarAsync_UsuarioNaoExiste_RetornaNull()
         {
             var id = "naoexiste";
-            var request = new UsuarioUpdateRequest { Nome = "Nome", Email = "email@email.com" };
+            var request = new Usuario { Nome = "Nome", Email = "email@email.com" };
             _usuarioRepositoryMock.Setup(r => r.ObterPorIdAsync(id)).ReturnsAsync((Usuario?)null);
 
             var result = await _usuarioService.AtualizarAsync(id, request);

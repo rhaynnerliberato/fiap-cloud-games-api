@@ -1,9 +1,11 @@
-﻿using fiap_cloud_games.Domain.Interfaces;
-using fiap_cloud_games_api.Models.Requests;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using fiap_cloud_games.Application.DTOs.Requests;
+using fiap_cloud_games.Domain.ValueObjects;
+using AutoMapper;
+using fiap_cloud_games.Application.Services.Interfaces;
 
-namespace fiap_cloud_games_api.Controllers
+namespace fiap_cloud_games.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -11,11 +13,14 @@ namespace fiap_cloud_games_api.Controllers
     {
         private readonly IAuthService _authService;
         private readonly ILogger<AuthController> _logger;
+        private readonly IMapper _mapper;
 
-        public AuthController(IAuthService authService, ILogger<AuthController> logger)
+
+        public AuthController(IAuthService authService, ILogger<AuthController> logger, IMapper mapper)
         {
             _authService = authService;
             _logger = logger;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -31,7 +36,8 @@ namespace fiap_cloud_games_api.Controllers
 
             try
             {
-                var token = await _authService.Authenticate(request);
+                var credentials = _mapper.Map<AuthCredentials>(request);
+                var token = await _authService.Authenticate(credentials);
                 _logger.LogInformation("Login bem-sucedido para o e-mail: {Email}", request.Email);
                 return Ok(new { Token = token });
             }
@@ -47,7 +53,10 @@ namespace fiap_cloud_games_api.Controllers
             }
         }
 
-        // Endpoint criado para testar o middleware de tratamento global de erros
+        /// <summary>
+        /// Endpoint criado para testar o middleware de tratamento global de erros.
+        /// </summary>
+        /// <returns>Erro</returns>
         [HttpGet("erro")]
         public IActionResult TestarErro()
         {

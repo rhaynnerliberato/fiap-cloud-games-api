@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Itens de Solução", "Itens
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fiap-cloud-games.Application", "fiap-cloud-games.Application\fiap-cloud-games.Application.csproj", "{A6E92C76-6647-4D6C-BFCC-13B1178EE81F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,10 @@ Global
 		{E513E218-0695-4103-AC72-F2573B1F177F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E513E218-0695-4103-AC72-F2573B1F177F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E513E218-0695-4103-AC72-F2573B1F177F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6E92C76-6647-4D6C-BFCC-13B1178EE81F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6E92C76-6647-4D6C-BFCC-13B1178EE81F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6E92C76-6647-4D6C-BFCC-13B1178EE81F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6E92C76-6647-4D6C-BFCC-13B1178EE81F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

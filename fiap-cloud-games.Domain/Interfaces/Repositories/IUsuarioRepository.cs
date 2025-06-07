@@ -1,6 +1,6 @@
 ﻿using fiap_cloud_games.Domain.Entities;
 
-namespace fiap_cloud_games.Domain.Interfaces
+namespace fiap_cloud_games.Domain.Interfaces.Repositories
 {
     public interface IUsuarioRepository
     {

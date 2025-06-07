@@ -1,15 +1,13 @@
 ﻿using fiap_cloud_games.Domain.Entities;
 
-namespace fiap_cloud_games.Domain.Interfaces
+namespace fiap_cloud_games.Domain.Interfaces.Repositories
 {
-    public interface IJogoService
+    public interface IJogoRepository
     {
-        Task<List<Jogo>> ListarAsync();
+        Task<IEnumerable<Jogo>> ListarAsync();
         Task<Jogo> ObterPorIdAsync(string id);
         Task<Jogo> CadastrarAsync(Jogo jogo);
         Task AtualizarAsync(Jogo jogo);
         Task DeletarAsync(Jogo jogo);
-        Task<bool> AplicarPromocaoAsync(string id, decimal percentual);
-
     }
 }

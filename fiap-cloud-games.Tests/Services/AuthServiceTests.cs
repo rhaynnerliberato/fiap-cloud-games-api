@@ -1,10 +1,11 @@
 ﻿using Moq;
-using fiap_cloud_games.Domain.Interfaces;
-using fiap_cloud_games_api.Services;
 using fiap_cloud_games.Domain.Entities;
-using fiap_cloud_games_api.Models.Requests;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using fiap_cloud_games.Domain.Interfaces.Repositories;
+using fiap_cloud_games.Application.Services;
+using fiap_cloud_games.Application.DTOs.Requests;
+using fiap_cloud_games.Domain.ValueObjects;
 
 namespace fiap_cloud_games.Tests.Services
 {
@@ -36,7 +37,7 @@ namespace fiap_cloud_games.Tests.Services
 
             var service = new AuthService(configMock, repoMock.Object, loggerMock.Object);
 
-            var loginRequest = new LoginRequest
+            var loginRequest = new AuthCredentials
             {
                 Email = "admin@fiap.com",
                 Senha = "asDF234@#$"

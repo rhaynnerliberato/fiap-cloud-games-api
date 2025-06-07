@@ -28,13 +28,14 @@
     <PackageReference Include="MongoDB.Bson" Version="3.4.0" />
     <PackageReference Include="MongoDB.Driver" Version="3.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.1" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.9.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.12.0" />
     <PackageReference Include="xunit" Version="2.9.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\fiap-cloud-games.Domain\fiap-cloud-games.Domain.csproj" />
     <ProjectReference Include="..\fiap-cloud-games.Infrastructure\fiap-cloud-games.Infrastructure.csproj" />
+    <ProjectReference Include="..\fiap-cloud-games.Application\fiap-cloud-games.Application.csproj" />
   </ItemGroup>
 
 </Project>

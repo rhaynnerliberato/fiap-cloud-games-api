@@ -16,7 +16,8 @@ Foi desenvolvida em .NET 6 com MongoDB, utilizando boas práticas como injeção
 * xUnit
 * Moq
 * Swagger (Swashbuckle)
-* Docker (opcional)
+* Github Actions (CI/CD)
+* Docker
 
 ---
 
@@ -24,20 +25,33 @@ Foi desenvolvida em .NET 6 com MongoDB, utilizando boas práticas como injeção
 
 ```
 fiap-cloud-games-api/
-|-- Controllers/
-|-- Domain/
+|-- fiap-cloud-games.API/
+|   |-- Controllers/
+|   |-- Middlewares/
+|   |-- Program.cs
+|   |-- appsettings.json
+
+|-- fiap-cloud-games.Application/
+|   |-- AutoMapper/
+|   |-- DTOs/
+|   |-- Services/
+
+|-- fiap-cloud-games.Domain/
 |   |-- Entities/
 |   |-- Enums/
 |   |-- Interfaces/
-|-- Models/
-|   |-- Requests/
-|   |-- Responses/
-|-- Repositories/
-|-- Services/
-|-- Tests/
+|   |-- ValueObjects/
+|
+|-- fiap-cloud-games.Infrastructure/
+|   |-- Configurations/
+|   |-- Context/
+|   |-- Migrations/
+|   |-- Repositories/
+|
+|-- fiap-cloud-games.Tests/
 |   |-- Services/
-|-- Program.cs
-|-- appsettings.json
+|
+|-- fiap-cloud-games.sln
 ```
 
 ---

@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
-using fiap_cloud_games.Domain.Interfaces;
-using fiap_cloud_games_api.Models.Requests;
-using fiap_cloud_games_api.Models.Responses;
+using fiap_cloud_games.API.DTOs.Responses;
 using Microsoft.AspNetCore.Authorization;
+using fiap_cloud_games.Application.DTOs.Requests;
+using AutoMapper;
+using fiap_cloud_games.Domain.Entities;
+using fiap_cloud_games.Application.Services.Interfaces;
 
-namespace fiap_cloud_games_api.Controllers
+namespace fiap_cloud_games.API.Controllers
 {
     [ApiController]
     [Route("api/usuarios")]
@@ -13,11 +15,13 @@ namespace fiap_cloud_games_api.Controllers
     {
         private readonly IUsuarioService _usuarioService;
         private readonly ILogger<UsuariosController> _logger;
+        private readonly IMapper _mapper;
 
-        public UsuariosController(IUsuarioService usuarioService, ILogger<UsuariosController> logger)
+        public UsuariosController(IUsuarioService usuarioService, ILogger<UsuariosController> logger, IMapper mapper)
         {
             _usuarioService = usuarioService;
             _logger = logger;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -41,7 +45,8 @@ namespace fiap_cloud_games_api.Controllers
                 return BadRequest("Senha inválida. A senha deve ter no mínimo 8 caracteres, incluindo letras, números e um caractere especial.");
             }
 
-            var usuarioResponse = await _usuarioService.CadastrarAsync(request);
+            var usuario = _mapper.Map<Usuario>(request);
+            var usuarioResponse = await _usuarioService.CadastrarAsync(usuario);
 
             _logger.LogInformation("Usuário cadastrado com sucesso. ID: {Id}", usuarioResponse.Id);
             return Ok(usuarioResponse);
@@ -87,7 +92,9 @@ namespace fiap_cloud_games_api.Controllers
         public async Task<ActionResult<UsuarioResponse>> Atualizar(string id, [FromBody] UsuarioUpdateRequest request)
         {
             _logger.LogInformation("Atualizando usuário com ID: {Id}", id);
-            var usuarioAtualizado = await _usuarioService.AtualizarAsync(id, request);
+            var usuario = _mapper.Map<Usuario>(request);
+            var usuarioAtualizado = await _usuarioService.AtualizarAsync(id, usuario);
+
             if (usuarioAtualizado == null)
             {
                 _logger.LogWarning("Tentativa de atualizar usuário inexistente com ID: {Id}", id);

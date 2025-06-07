@@ -1,5 +1,5 @@
 ﻿using fiap_cloud_games.Domain.Entities;
-using fiap_cloud_games.Domain.Interfaces;
+using fiap_cloud_games.Domain.Interfaces.Repositories;
 using fiap_cloud_games.Infrastructure.Context;
 using MongoDB.Bson;
 using MongoDB.Driver;

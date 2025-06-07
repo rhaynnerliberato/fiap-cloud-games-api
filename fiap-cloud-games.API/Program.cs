@@ -1,9 +1,5 @@
-using fiap_cloud_games_api.Services;
 using fiap_cloud_games.Infrastructure.Repositories;
 using fiap_cloud_games.Infrastructure.Settings;
-using fiap_cloud_games.Domain.Interfaces;
-using fiap_cloud_games_api.AutoMapper;
-using fiap_cloud_games.Services;
 using fiap_cloud_games.Infrastructure.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -13,6 +9,10 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using System.Reflection;
 using fiap_cloud_games.Infrastructure.Migrations;
+using fiap_cloud_games.Domain.Interfaces.Repositories;
+using fiap_cloud_games.Application.Services.Interfaces;
+using fiap_cloud_games.Application.Services;
+using fiap_cloud_games.Application.AutoMapper;
 
 
 var builder = WebApplication.CreateBuilder(args);

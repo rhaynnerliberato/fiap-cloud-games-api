@@ -1,9 +1,11 @@
 ﻿using fiap_cloud_games.Domain.Entities;
-using fiap_cloud_games.Domain.Interfaces;
-using fiap_cloud_games.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
 using MongoDB.Bson;
+using fiap_cloud_games.Domain.Interfaces.Repositories;
+using fiap_cloud_games.Application.Services;
+using AutoMapper;
+using fiap_cloud_games.API.DTOs.Responses;
 
 namespace fiap_cloud_games.Tests.Services
 {
@@ -12,30 +14,43 @@ namespace fiap_cloud_games.Tests.Services
         private readonly Mock<IJogoRepository> _jogoRepositoryMock;
         private readonly Mock<ILogger<JogoService>> _loggerMock;
         private readonly JogoService _jogoService;
+        private readonly Mock<IMapper> _mapperMock;
 
         public JogoServiceTests()
         {
             _jogoRepositoryMock = new Mock<IJogoRepository>();
             _loggerMock = new Mock<ILogger<JogoService>>();
-            _jogoService = new JogoService(_jogoRepositoryMock.Object, _loggerMock.Object);
+            _mapperMock = new Mock<IMapper>();
+            _jogoService = new JogoService(_jogoRepositoryMock.Object, _loggerMock.Object, _mapperMock.Object);
+
         }
 
         [Fact]
         public async Task ListarAsync_ReturnsJogosList()
         {
+            // Arrange
             var jogos = new List<Jogo>
             {
                 new Jogo { Id = ObjectId.GenerateNewId(), Nome = "Jogo 1", Valor = 100 }
             };
 
-            _jogoRepositoryMock.Setup(repo => repo.ListarAsync()).ReturnsAsync(jogos);
+            var jogosResponse = new List<JogoResponse>
+            {
+                new JogoResponse { Id = jogos[0].Id, Nome = "Jogo 1", Valor = 100 }
+            };
 
+            _jogoRepositoryMock.Setup(repo => repo.ListarAsync()).ReturnsAsync(jogos);
+            _mapperMock.Setup(m => m.Map<List<JogoResponse>>(jogos)).Returns(jogosResponse);
+
+            // Act
             var result = await _jogoService.ListarAsync();
 
+            // Assert
             Assert.NotNull(result);
             Assert.Single(result);
             Assert.Equal("Jogo 1", result[0].Nome);
         }
+
 
         [Fact]
         public async Task ObterPorIdAsync_ExistingId_ReturnsJogo()
@@ -64,17 +79,26 @@ namespace fiap_cloud_games.Tests.Services
         }
 
         [Fact]
-        public async Task CadastrarAsync_ValidJogo_ReturnsJogo()
+        public async Task CadastrarAsync_ValidJogo_ReturnsJogoResponse()
         {
+            // Arrange
             var jogo = new Jogo { Id = ObjectId.GenerateNewId(), Nome = "Novo Jogo" };
 
-            _jogoRepositoryMock.Setup(repo => repo.CadastrarAsync(jogo)).ReturnsAsync(jogo);
+            var jogoResponse = new JogoResponse { Id = jogo.Id, Nome = jogo.Nome };
 
+            _jogoRepositoryMock.Setup(r => r.CadastrarAsync(jogo)).ReturnsAsync(jogo);
+
+            _mapperMock.Setup(m => m.Map<JogoResponse>(jogo)).Returns(jogoResponse);
+
+            // Act
             var result = await _jogoService.CadastrarAsync(jogo);
 
+            // Assert
             Assert.NotNull(result);
             Assert.Equal(jogo.Id, result.Id);
+            Assert.Equal(jogo.Nome, result.Nome);
         }
+
 
         [Fact]
         public async Task AtualizarAsync_ValidJogo_CallsRepository()
