@@ -34,6 +34,13 @@ jobs:
           username: 'rhaynner1989'
           password: ${{ secrets.TOKEN_DOCKER_HUB }}
 
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v6.18.0
+        with:
+          context: .
+          tags: 'rhaynner1989/fiap-cloud-games-api:latest'
+          push: true
+
   test:
     name: Testes Unitários
     runs-on: ubuntu-latest
