@@ -31,12 +31,12 @@ fiap-cloud-games-api/
 |   |-- Middlewares/
 |   |-- Program.cs
 |   |-- appsettings.json
-
+|
 |-- fiap-cloud-games.Application/
 |   |-- AutoMapper/
 |   |-- DTOs/
 |   |-- Services/
-
+|
 |-- fiap-cloud-games.Domain/
 |   |-- Entities/
 |   |-- Enums/

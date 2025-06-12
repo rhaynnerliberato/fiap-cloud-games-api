@@ -73,7 +73,7 @@ jobs:
         run: echo "${{ secrets.PASSWORD_DOCKER_HUB }}" | docker login -u "${{ secrets.USERNAME_DOCKER_HUB }}" --password-stdin
 
       - name: Build da imagem
-        run: docker build -t ${{ secrets.USERNAME_DOCKER_HUB }}/fiap-cloud-games-api:latest ./fiap-cloud-games.API
+        run: docker build -t ${{ secrets.USERNAME_DOCKER_HUB }}/fiap-cloud-games-api:latest .
 
       - name: Push da imagem
         run: docker push ${{ secrets.USERNAME_DOCKER_HUB }}/fiap-cloud-games-api:latest
