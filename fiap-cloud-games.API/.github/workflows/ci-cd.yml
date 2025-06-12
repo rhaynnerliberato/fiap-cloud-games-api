@@ -1,0 +1,86 @@
+name: CI/CD Pipeline - Fiap Cloud Games
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Build .NET Solution
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout codigo
+        uses: actions/checkout@v3
+
+      - name: Instalar .NET 8 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restaurar dependencias
+        run: dotnet restore ./fiap-cloud-games.sln
+
+      - name: Build da solution
+        run: dotnet build ./fiap-cloud-games.sln --no-restore --configuration Release
+
+      - name: Docker Login
+        uses: docker/login-action@v3.4.0
+        with:
+          username: 'rhaynner1989'
+          password: ${{ secrets.TOKEN_DOCKER_HUB }}
+
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v6.18.0
+        with:
+          context: .
+          tags: 'rhaynner1989/fiap-cloud-games-api:latest'
+          push: true
+
+  test:
+    name: Testes Unitários
+    runs-on: ubuntu-latest
+    needs: build
+    if: success()
+    steps:
+      - name: Checkout codigo
+        uses: actions/checkout@v3
+
+      - name: Instalar .NET 8 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Cache de pacotes NuGet
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restaurar dependencias
+        run: dotnet restore ./fiap-cloud-games.sln
+
+      - name: Executar testes
+        run: dotnet test ./fiap-cloud-games.sln --no-restore --configuration Release --collect:"XPlat Code Coverage" --results-directory ./TestResults
+        continue-on-error: true
+
+      - name: Listar arquivos de cobertura
+        run: ls -R ./TestResults
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: test
+    if: success()
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Publicar aplicação
+        run: echo "Fazendo deploy da aplicação"

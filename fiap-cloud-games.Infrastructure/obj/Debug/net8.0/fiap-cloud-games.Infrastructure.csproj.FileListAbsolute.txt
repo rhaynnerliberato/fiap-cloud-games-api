@@ -62,8 +62,6 @@ C:\git\fiap-cloud-games-api\fiap-cloud-games.Infrastructure\bin\Debug\net8.0\fia
 C:\git\fiap-cloud-games-api\fiap-cloud-games.Infrastructure\bin\Debug\net8.0\fiap-cloud-games.Domain.runtimeconfig.json
 C:\git\fiap-cloud-games-api\fiap-cloud-games.Infrastructure\bin\Debug\net8.0\fiap-cloud-games.Domain.staticwebassets.endpoints.json
 C:\git\fiap-cloud-games-api\fiap-cloud-games.Infrastructure\bin\Debug\net8.0\fiap-cloud-games.Domain.exe
-C:\git\fiap-cloud-games-api\fiap-cloud-games.Infrastructure\bin\Debug\net8.0\appsettings.Development.json
-C:\git\fiap-cloud-games-api\fiap-cloud-games.Infrastructure\bin\Debug\net8.0\appsettings.json
 C:\git\fiap-cloud-games-api\fiap-cloud-games.Infrastructure\bin\Debug\net8.0\fiap-cloud-games.Infrastructure.staticwebassets.endpoints.json
 C:\git\fiap-cloud-games-api\fiap-cloud-games.Infrastructure\bin\Debug\net8.0\fiap-cloud-games.Infrastructure.exe
 C:\git\fiap-cloud-games-api\fiap-cloud-games.Infrastructure\bin\Debug\net8.0\fiap-cloud-games.Infrastructure.deps.json
