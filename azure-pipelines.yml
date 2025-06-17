@@ -1,0 +1,139 @@
+trigger:
+  branches:
+    include:
+      - master
+
+pr:
+  branches:
+    include:
+      - master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  buildConfiguration: 'Release'
+  dotnetVersion: '8.0.x'
+
+stages:
+- stage: Build
+  displayName: 'Build Stage'
+  jobs:
+  - job: BuildJob
+    displayName: '.NET Build Solution'
+    steps:
+    - checkout: self
+      displayName: 'Checkout código'
+
+    - task: UseDotNet@2
+      displayName: 'Instalar .NET 8 SDK'
+      inputs:
+        packageType: 'sdk'
+        version: $(dotnetVersion)
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Restaurar dependências'
+      inputs:
+        command: 'restore'
+        projects: './fiap-cloud-games.sln'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Build da solution'
+      inputs:
+        command: 'build'
+        projects: './fiap-cloud-games.sln'
+        arguments: '--no-restore --configuration $(buildConfiguration)'
+
+- stage: Test
+  displayName: 'Test Stage'
+  dependsOn: Build
+  condition: succeeded()
+  jobs:
+  - job: TestJob
+    displayName: 'Testes Unitários'
+    steps:
+    - checkout: self
+      displayName: 'Checkout código'
+
+    - task: UseDotNet@2
+      displayName: 'Instalar .NET 8 SDK'
+      inputs:
+        packageType: 'sdk'
+        version: $(dotnetVersion)
+
+    - task: Cache@2
+      displayName: 'Cache de pacotes NuGet'
+      inputs:
+        key: 'nuget | "$(Agent.OS)" | **/*.csproj'
+        restoreKeys: |
+          nuget | "$(Agent.OS)"
+        path: '$(Pipeline.Workspace)/.nuget/packages'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Restaurar dependências'
+      inputs:
+        command: 'restore'
+        projects: './fiap-cloud-games.sln'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Executar testes'
+      inputs:
+        command: 'test'
+        projects: './fiap-cloud-games.sln'
+        arguments: '--no-restore --configuration $(buildConfiguration) --collect:"XPlat Code Coverage" --results-directory $(Agent.TempDirectory)/TestResults'
+      continueOnError: true
+
+    - task: CmdLine@2
+      displayName: 'Listar arquivos de cobertura'
+      inputs:
+        script: 'ls -R $(Agent.TempDirectory)/TestResults'
+
+- stage: Docker
+  displayName: 'Docker Stage'
+  dependsOn: Test
+  condition: succeeded()
+  jobs:
+  - job: DockerJob
+    displayName: 'Docker Build and Push'
+    steps:
+    - checkout: self
+      displayName: 'Checkout código'
+
+    - task: Docker@2
+      displayName: 'Login no Docker Hub'
+      inputs:
+        containerRegistry: 'DockerHubServiceConnection'
+        command: 'login'
+
+    - task: Docker@2
+      displayName: 'Build da imagem Docker'
+      inputs:
+        containerRegistry: 'DockerHubServiceConnection'
+        repository: '$(USERNAME_DOCKER_HUB)/fiap-cloud-games-api'
+        command: 'build'
+        Dockerfile: '**/Dockerfile'
+        tags: 'latest'
+
+    - task: Docker@2
+      displayName: 'Push da imagem Docker'
+      inputs:
+        containerRegistry: 'DockerHubServiceConnection'
+        repository: '$(USERNAME_DOCKER_HUB)/fiap-cloud-games-api'
+        command: 'push'
+        tags: 'latest'
+
+- stage: Deploy
+  displayName: 'Deploy Stage'
+  dependsOn: Docker
+  condition: succeeded()
+  jobs:
+  - job: DeployJob
+    displayName: 'Deploy'
+    steps:
+    - checkout: self
+      displayName: 'Checkout código'
+
+    - task: CmdLine@2
+      displayName: 'Publicar aplicação'
+      inputs:
+        script: 'echo "Fazendo deploy da aplicação"'
